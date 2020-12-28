@@ -1,0 +1,227 @@
+{% extends "base.html" %}
+{% block title %}Weather{% endblock %}
+{% load static %}
+{% block body %}
+
+	<div class="site-content">
+		<div class="site-header">
+			<div class="container">
+				<a href="/" class="branding">
+					<img src="media/images/logo.png" alt="" class="logo">
+					<div class="logo-type">
+						<h1 class="site-title">weathx</h1>
+						<small class="site-description">focus on customer trust</small>
+					</div>
+				</a>
+				<div class="main-navigation">
+					<button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
+					<ul class="menu">
+						<li class="menu-item current-menu-item"><a href="/">Home</a></li>
+						<li class="menu-item"><a href="../account/contact/">Contact</a></li>
+						{% comment %} {% if request.sessions.person_id %}
+						<li class="menu-item"><a href="/">profile</a></li>
+						{% else %}
+						<li class="menu-item"><a href="../account/signup/">signup</a></li>
+						<li class="menu-item"><a href="../account/signin/">signin</a></li>
+						{% endif %} {% endcomment %}
+					</ul>
+				</div>
+				<div class="mobile-navigation"></div>
+			</div>
+		</div>
+		<div class="hero" data-bg-image="./media/images/banner.png"
+			style="background-image: url('./media/images/banner.png');">
+			<div class="container">
+				{% for message in messages%}
+				<div class="alert alert-{{ message.tags }} alert-dismissible fade show"
+					role="alert">
+					<strong> </strong> {{ message }}
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				{% endfor %}
+				<br>
+			</div>
+			<div class="container">
+				<form method='post' action="" class="find-location"> {% csrf_token %}
+					<input type="text" name='name' id="name" placeholder="Find your location..."
+						aria-label="Search" name="keyword" id="search" autocomplete="off">
+					<input type="submit" value="Find">
+				</form>
+			</div>
+		</div>
+		<input type="hidden" id="edx" value="{{st.X}}" />
+		<div class="forecast-table">
+			<div class="container">
+				<div class="forecast-container">
+					<div class="today forecast">
+						<div class="forecast-header">
+							<div class="day">{{st.day}}</div>
+							<div class="date">{{st.time}}</div>
+						</div>
+
+						{% comment %} forecast-header {% endcomment %}
+						<div class="forecast-content" style='background-color:#000000'>
+							<div class="location">{{weather1.city}}&nbsp<sup>{{weather.country}} </sup></div>
+							<div class="degree d-flex">
+								<div class="num">{{weather1.temperature}}<sup>o</sup>C</div>
+								<div class="forecast-icon">
+									<img src="http://openweathermap.org/img/wn/{{weather1.icon}}.png" style="background-color: white;border-radius: 10%;" alt="" width=85>
+								</div>
+							</div>
+							<span><img src="images/icon-umberella.png" alt="">humidity&nbsp{{weather1.humidity1}}%</span>
+							<span><img src="images/icon-wind.png" alt="">{{weather1.windspeed}}km/h</span>
+							{% comment %} <span><img src="images/icon-compass.png" alt="">East</span> {% endcomment %}
+						</div>
+					</div>
+
+					{% for x,y in forcast.items %}
+					<div class="forecast">
+						<div class="forecast-header">
+							<div class="day">{{y.day}}</div>
+						</div> <!-- .forecast-header -->
+						<div class="forecast-content">
+							<div class="forecast-icon">
+								<img src="http://openweathermap.org/img/wn/{{y.icon}}.png"
+									style="background-color: white; border-radius: 10%;" alt="" width=48>
+							</div>
+							<div class="degree">23<sup>o</sup>C</div>
+							<small>18<sup>o</sup></small>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+		{% comment %} <div class='container mt-5 bg-default'>
+			<canvas class="my-4 w-100 chartjs-render-monitor" id="myChart" width="1539"
+				height="649" style="display: block; width: 1539px; height: 649px;
+				background-color:white;"></canvas>
+		</div> {% endcomment %}
+		{% for i in citylist %}
+		<div class='container'>
+			<div class="rounded-3 my-2" style="background-color:black;">
+				<div class="py-3 mx-3">
+					<div class='float-right d-flex'>
+						<div class='mx-2'>
+							<button class="btn ats btn-success" data-toggle="modal" data-target="#exampleModal{{i.city}}">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+									<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+									<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+								</svg>
+							</button>
+						</div>
+						<form action='../editing/' method='post'>{% csrf_token %}
+							<input type='hidden' value="{{i.city}}" name="newname" id="newname" />
+							<div class="modal fade" id="exampleModal{{i.city}}" tabindex="-1"
+								role="dialog" aria-labelledby="exampleModalCenterTitle"
+								aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+											<button type="button" class="close" data-dismiss="modal"
+												aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											<div class="form-floating mb-3">
+												<input type="hidden" id="onename" name='onename'value="{{i.city}}"
+													/>
+												<input type="text" class="form-control" id="newname"
+													name='newname'value="{{i.city}}" placeholder="Update City Name">
+												<label for="newname">Update City Name</label>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+
+						<div class='mx-2'>
+							<form action='../delete/' method='post'>{% csrf_token %}
+								<input type='hidden' value="{{i.city}}" name="newname" id="newname" />
+								<button type="submit" class="btn-close float-right" style="background-color:red;" data-bs-dismiss="modal" aria-label="Close"></button>
+							</form>
+						</div>
+					</div>
+				</div>
+				<hr class="border-dark border-3">
+				<div class='container py-3'>
+					<div class="row d-flex">
+						<div class="row">
+							<div class="col">
+								<p></p>
+								<div class='d-flex'><h1 class='p-0 m-0' style='font-size: 50px;'>{{i.city}}</h1><sub>{{i.country}}</sub></div>
+								<div class='d-flex'>
+									<ul>{{i.description}}&nbsp&nbsp&nbsp&nbsp</ul><ul>{{i.windspeed}}kmph&nbsp&nbsp&nbsp&nbsp</ul><ul>humidity {{i.humidity1}}%</ul>
+								</div>
+							</div>
+							<div class="col align-items-center">
+								<p><br></p>
+								<img class="" src="http://openweathermap.org/img/wn/{{i.icon}}.png" style="background-color: #bfc1c8; border-radius: 10%;" alt="" width=65>
+							</div>
+							<div class="col-auto">
+								<p class='float-right mb-0 mt-0 p-0'>Max {{i.temperature_max}}<sup>oC</sup></p>
+								<h1 style='font-size: 65px; mb-1 mt-1' class="mr-auto pr-auto">{{i.temperature}}<sup>oc</sup></h1>
+								<p class='float-right mb-0 mt-0 p-0'>Min {{i.temperature_min}}<sup>o</sup></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+		<input type='hidden' id='myText' value="{{ListValue}}" />
+		<input type='hidden' id='myDay' value="{{listday}}" />
+		<p id="demo"></p>
+	</div>
+	<script src="path/to/chartjs/dist/Chart.js"></script>
+	<script>
+
+		var temperature = document.getElementById("myText").value;
+		var days = document.getElementById("myDay").value;
+		var d = days.substring(1);
+		var d1 = d.slice(0, -1)
+		var d2 = d1.replace(/'+/g, '');
+		var d3 = d2.split(',');
+		
+		var x = temperature.substring(1);
+		var x1 = x.slice(0, -1)
+		var x2 = x1.replace(/\s+/g, '');
+		var x3 = x2.split(',');
+		var x4 = x3.map((i) => Number(i));
+		var ctx = document.getElementById('myChart').getContext('2d');
+		var myChart = new Chart(ctx, {
+				type: 'line', 
+			data: {
+				labels:d3,
+				datasets: [{
+					label: '# of temperature',
+					data: x4,
+					borderColor: [
+						'rgba(255, 99, 132, 1)',
+						'rgba(54, 162, 235, 1)',
+						'rgba(255, 206, 86, 1)',
+						'rgba(75, 192, 192, 1)',
+						'rgba(153, 102, 255, 1)',
+						'rgba(255, 159, 64, 1)'
+					],
+					borderWidth: 10
+				}]
+			},
+			options: {
+				scales: {
+					yAxes: [{
+						ticks: {
+							beginAtZero: true
+						}
+					}]
+				}
+			}
+		
+		});
+	</script>
+{% endblock %}

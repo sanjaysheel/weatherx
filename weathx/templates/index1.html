@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+{% block title %}Weather{% endblock %}
+{% load static %}
+{% block body %}
+
+	<div class="site-content">
+			<div class="site-header">
+				<div class="container">
+					<a href="/" class="branding">
+						<img src="media/images/logo.png" alt="" class="logo">
+						<div class="logo-type">
+							<h1 class="site-title">weathx</h1>
+							<small class="site-description">focus on customer trust</small>
+						</div>
+					</a>
+					<div class="main-navigation">
+						<button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
+						<ul class="menu">
+							<li class="menu-item current-menu-item"><a href="/">Home</a></li>
+							<li class="menu-item"><a href="../account/contact/">Contact</a></li>
+							{% comment %} {% if request.sessions.person_id %}
+								<li class="menu-item"><a href="/">profile</a></li>
+							{% else %}
+								<li class="menu-item"><a href="../account/signup/">signup</a></li>
+								<li class="menu-item"><a href="../account/signin/">signin</a></li>
+							{% endif %} {% endcomment %}
+						</ul>
+					</div>
+					<div class="mobile-navigation"></div>
+				</div>
+			</div> 
+			<div class="hero" data-bg-image="./media/images/banner.png" style="background-image: url('./media/images/banner.png');">
+				<div class="container">
+					<form method='post' action="" class="find-location"> {% csrf_token %}
+						<input type="text" name='name' id="name" placeholder="Find your location..." aria-label="Search" name="keyword" id="search" autocomplete="on">
+						<input type="submit" value="Find">
+					</form>
+
+				</div>
+			</div>
+			{% comment %} <div class="" id='edx' value="{{st.X}}"> {% endcomment %}
+			<input type="hidden" id="edx" value="{{st.X}}"/>
+			<div class="forecast-table">
+				<div class="container">
+					<div class="forecast-container">
+						<div class="today forecast">
+							<div class="forecast-header">
+								<div class="day">{{st.day}}</div>
+								<div class="date">{{st.time}}</div>
+							</div> 
+							{% comment %} forecast-header  {% endcomment %}
+							<div class="forecast-content" style='background-color:#000000'>
+								<div class="location">{{weather.city}}</div>
+								<div class="degree d-flex">
+									<div class="num">{{weather.temperature}}<sup>o</sup>C</div>
+									<div class="forecast-icon">
+										<img src="http://openweathermap.org/img/wn/{{weather.icon}}.png" style="background-color: white;opacity: 0.6;border-radius: 32%;" alt="" width=90>
+									</div>	
+								</div>
+								<span><img src="images/icon-umberella.png" alt="">20%</span>
+								<span><img src="images/icon-wind.png" alt="">18km/h</span>
+								<span><img src="images/icon-compass.png" alt="">East</span>
+							</div>
+						</div>
+						{% for x,y in forcast.items %}
+							<div class="forecast">
+								<div class="forecast-header">
+									<div class="day">{{y.day}}</div>
+								</div> <!-- .forecast-header -->
+								<div class="forecast-content" >
+									<div class="forecast-icon">
+										<img src="http://openweathermap.org/img/wn/{{y.icon}}.png" style="background-color: white; opacity: 0.6;border-radius: 32%;" alt="" width=48>
+									</div>
+									<div class="degree">23<sup>o</sup>C</div>
+									<small>18<sup>o</sup></small>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		
+			{% for i in citylist %}
+				<div class='container'>
+					<div class="rounded-3 my-2" style="background-color:black;">
+						<div class="py-3 mx-3">
+							<form action='../delete/' method='post'>{% csrf_token %}
+							{% comment %} <p>{{i}}</p> {% endcomment %}
+								<input type='hidden' value="{{i.city}}" name="newname" id="newname"/>
+								<button type="submit" class="btn-close float-right" style="background-color:white;"data-bs-dismiss="modal" aria-label="Close"></button>
+							</form>
+						</div>
+						<hr class=" border-dark border-3">
+						<div class='container py-3'>
+							<div class="row d-flex">
+								<div class="row">
+									<div class="col">
+										<p></p>
+										<div class='d-flex'><h1 class='p-0 m-0' style='font-size: 50px;'>{{i.city}}</h1><sub>{{i.country}}</sub></div>
+										<p class='p-0 m-0'>{{i.description}}</p>
+									</div>
+									<div class="col align-items-center">
+									<p><br></p>
+											<img class="" src="http://openweathermap.org/img/wn/{{i.icon}}.png" style="background-color: #bfc1c8; border-radius: 10%;" alt="" width=65>
+									
+									</div>
+									<div class="col-auto">
+										<p class='float-right mb-0 mt-0 p-0'>Max {{i.temperature_max}}<sup>oC</sup></p>
+										<h1 style='font-size: 65px; mb-1 mt-1' class=" mr-auto pr-auto">{{i.temperature}}<sup>oc</sup></h1>
+										<p class='float-right mb-0 mt-0 p-0'>Min {{i.temperature_min}}<sup>o</sup></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+			 {% comment %} <div class='container mt-5 bg-default'>
+				<canvas class="bg-default my-4 w-100 chartjs-render-monitor" id="myChart" width="1539" height="649" style="display: block; width: 1539px; height: 649px;"></canvas>
+			</div>  {% endcomment %}
+		<div class="py-5"></diV>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} 
+			<footer class="site-footer">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-8">
+							<form action="#" class="subscribe-form">
+								<input type="text" placeholder="Enter your email to subscribe...">
+								<input type="submit" value="Subscribe">
+							</form>
+						</div>
+						<div class="col-md-3 col-md-offset-1">
+							<div class="social-links">
+								<a href="#"><i class="fa fa-facebook"></i></a>
+								<a href="#"><i class="fa fa-twitter"></i></a>
+								<a href="#"><i class="fa fa-google-plus"></i></a>
+								<a href="#"><i class="fa fa-pinterest"></i></a>
+							</div>
+						</div>
+					</div>
+
+					<p class="colophon">Copyright 2014 weathx. Designed by Themezy. All rights reserved</p>
+				</div>
+			</footer> {% endcomment %}
+		</div>
+		
+		<script>
+			var temp = document.getElementById('edx').value
+			var ctx = document.getElementById('myChart').getContext('2d');
+			var myChart = new Chart(ctx, {
+				 type: 'line', 
+				{% comment %} type: 'doughnut', {% endcomment %}
+				data: {
+					labels: ['Red', 'Blue', 'Yellow', 'orange', 'Purple', 'greeen'],
+					datasets: [{
+						label: '# of Votes',
+						data: [1,2,3,4,5],
+						{% comment %} backgroundColor: [
+							'rgba(255, 99, 132, 0.2)',
+							'rgba(54, 162, 235, 0.2)',
+							'rgba(255, 206, 86, 0.2)',
+							'rgba(75, 192, 192, 0.2)',
+							'rgba(153, 102, 255, 0.2)',
+							'rgba(255, 159, 64, 0.2)'
+						], {% endcomment %}
+						borderColor: [
+							'rgba(255, 99, 132, 1)',
+							'rgba(54, 162, 235, 1)',
+							'rgba(255, 206, 86, 1)',
+							'rgba(75, 192, 192, 1)',
+							'rgba(153, 102, 255, 1)',
+							'rgba(255, 159, 64, 1)'
+						],
+						borderWidth: 5
+					}]
+				},
+				options: {
+					scales: {
+						yAxes: [{
+							ticks: {
+								beginAtZero: true
+							}
+						}]
+					}
+				}
+
+		});
+		</script>
+		 <script src="https://code.jquery.com/jquery-3.5.1.min.js"  integrity = 'sha256-9/aliU8dGd2tb6OSsuzixeV4y/faDqgFtohetphbbj0=' crossorigin= "anonymous"></script> 
+    </script>
+   
+  <script>
+        $(function() {
+            $("#search").autocomplete({
+                source: "{% url 'weathx:autosuggest' %}",
+            });
+        });
+</script>
+{% endblock %}

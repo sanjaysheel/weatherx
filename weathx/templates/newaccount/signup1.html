@@ -1,0 +1,149 @@
+{% extends 'base.html' %} 
+{% block title %}Contact Page Write your queries to contact us{% endblock %}
+
+
+{% block nav %}
+<nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">CISBLOG</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <!-- <li class="nav-item active">
+                <a class="nav-link" href="/">Home </a>
+            </li> -->
+            <!-- <span class="sr-only">(current)</span> -->
+            <!-- <li class="nav-item">
+                <a class="nav-link" href="../bloghome">Popblog</a>
+            </li> -->
+            <li class="nav-item">
+                {% if request.session.person_id %} {% csrf_token %}
+                <a class="nav-link" href="../blogpost">WrBlog</a> {% else %}
+                <a class="nav-link" href="#">WrBlog</a> {% endif %}
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../contact">ContactUs</a>
+            </li>
+            <!-- <li class="nav-item">
+                <a class="nav-link" href="../mainpage">About</a>
+            </li> -->
+        </ul>
+        <div class="mr-3">
+
+            <form action="../../searching" method='post' class="form-inline my-2 my-lg-0">
+                {% csrf_token %}
+                <input class="form-control mr-sm-2" name="keyword" type="search" placeholder="Search" id="search" aria-label="Search" autocomplete="on">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+
+        <!-- {% if all1.votes_table == '1' %} profile
+        <a class="btn btn-outline-success my-2 my-sm-0 nav-link mx-2" href="/">LogOut</a> {% endif %} {% if all1.votes_table != '1' %}
+        <a class="btn btn-outline-success my-2 my-sm-0 nav-link mx-2" href="../signup">SignUp</a>
+        <a class="btn btn-outline-success my-2 my-sm-0 nav-link mx-2" href="../signin">SignIn</a> {% endif %} -->
+        {% if request.session.person_id %} {% csrf_token %}
+        <a class="btn btn-outline-success my-2 my-sm-0 nav-link mx-2" href="../cis/{{all11.userslug}}">{{ request.session.person_fname }} </a>
+        <a class="btn btn-outline-success my-2 my-sm-0 nav-link mx-2" href="../logout">LogOut</a> {% else %}
+        <a class="btn btn-outline-success my-2 my-sm-0 nav-link mx-2" href="../signup">SignUp</a>
+        <a class="btn btn-outline-success my-2 my-sm-0 nav-link mx-2" href="../signin">SignIn</a> {% endif %}
+
+    </div>
+</nav>
+{% endblock %}
+
+
+
+{% block body %}
+
+
+<div class="breadcrumb">
+    <ol class="breadcrumb_1">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li aria-current="#" class="breadcrumb-item active">Signup</li>
+    </ol>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% for message in messages%}
+<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+  <strong>Message: </strong> {{ message }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endfor %}
+
+
+
+
+
+
+<div class="container text-center py-5 my-5 border-bottom border-primary">
+    <h1>SignUp</h1>
+</div>
+
+
+<div class="container py-5 my-5 px-5">
+    <form method="post">
+    {% csrf_token %}
+        <div class="form-group">
+            <label for="firstname">First Name:</label>
+            <input class="form-control" id="firstname" name="firstname" type="firstname">
+        </div>
+        <div class="form-group">
+            <label for="lastname">Last Name:</label>
+            <input class="form-control" id="lastname" name="lastname" type="lastname">
+        </div>
+        <div class="form-group">
+            <label for="contact">contact:</label>
+            <p><small>A Number must contain only 10 digit:</small></p>
+            <input class="form-control" id="contact" name="contact" type="number" pattern="[0-9]{10}">
+        </div>
+        <div class="form-group">
+            <label for="email">Email address:</label>
+            <p><small>Email can be @gmail, @outlook and @hotmail :</small></p>
+            <input class="form-control" id="email" name="email" type="email" pattern=".+@hotmail\.com|.+@outlook\.com|.+@gmail\.com">
+        </div>
+        <div class="form-group">
+            <label for="state">State:</label>
+            <input class="form-control" id="state" name="state" type="state">   
+        </div>
+        <div class="form-group">
+            <label for="city">City:</label>
+            <input class="form-control" id="city" name="city" type="city">
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <p><small>A password must contain 8 or more characters (least one number, and one uppercase and lowercase letter):</small></p>
+            <input class="form-control" id="password" name="password" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+        </div>
+        <div class="form-group">
+            <label for="confirm_pass">Re Enter Password:</label>
+            <input class="form-control" id="confirm_pass" name="confirm_pass" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+        </div>
+        <div class="checkbox">
+            <label><input type="checkbox"> Remember me</label>
+        </div>
+        <div class="form-group">
+            <label for="image">Upload profile photo:</label>
+            <input type="file" id="image" name="image" />
+        </div>
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+</div>
+{% endblock %}

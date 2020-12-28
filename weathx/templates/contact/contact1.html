@@ -1,0 +1,153 @@
+{% extends 'base.html' %} 
+
+{% block title %}Contact Page Write your queries to contact us{% endblock %} 
+
+{% block nav %}
+<nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">CISBLOG</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <!-- <li class="nav-item active">
+                <a class="nav-link" href="/">Home </a>
+            </li> -->
+            <!-- <span class="sr-only">(current)</span> -->
+            <!-- <li class="nav-item">
+                <a class="nav-link" href="../bloghome">Popblog</a>
+            </li> -->
+            <li class="nav-item">
+                {% if request.session.person_id %} {% csrf_token %}
+                <a class="nav-link" href="../../blogpost">Write-Blog</a> {% else %}
+                <a class="nav-link" href="#">WrBlog</a> {% endif %}
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../contact">ContactUs</a>
+            </li>
+            <!-- <li class="nav-item">
+                <a class="nav-link" href="../mainpage">About</a>
+            </li> -->
+        </ul>
+        <div class="mr-3">
+
+            {% comment %} <form action="../../searching" method='post' class="form-inline my-2 my-lg-0">
+                {% csrf_token %}
+                <input class="form-control mr-sm-2" name="keyword" type="search" placeholder="Search" id="search" aria-label="Search" autocomplete="on">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form> {% endcomment %}
+            <form method="POST" action='../../searching' class="form-inline my-2 my-lg-0 mr-2"> {% csrf_token %}
+                <input class="form-control ab mr-sm-2" style="height: calc(2.0rem + 2px);" type="search" placeholder="Search" aria-label="Search" name="keyword" id="search" autocomplete="on">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+
+        <!-- {% if all1.votes_table == '1' %} profile
+        <a class="btn btn-outline-success my-2 my-sm-0 nav-link mx-2" href="/">LogOut</a> {% endif %} {% if all1.votes_table != '1' %}
+        <a class="btn btn-outline-success my-2 my-sm-0 nav-link mx-2" href="../signup">SignUp</a>
+        <a class="btn btn-outline-success my-2 my-sm-0 nav-link mx-2" href="../signin">SignIn</a> {% endif %} -->
+        {% if request.session.person_id %} {% csrf_token %}
+        <a class="btn btn-outline-success my-2 my-sm-0 nav-link mx-2" href="../../cis/{{all11.userslug}}">{{ request.session.person_fname }} </a>
+        <a class="btn btn-outline-success my-2 my-sm-0 nav-link mx-2" href="../logout">LogOut</a> {% else %}
+        <a class="btn btn-outline-success my-2 my-sm-0 nav-link mx-2" href="../signup">SignUp</a>
+        <a class="btn btn-outline-success my-2 my-sm-0 nav-link mx-2" href="../signin">SignIn</a> {% endif %}
+
+    </div>
+</nav>
+{% endblock %}
+
+
+
+
+{% block body %}
+
+
+<div class="breadcrumb">
+    <ol class="breadcrumb_1">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li aria-current="#" class="breadcrumb-item active">Contact-Us</li>
+    </ol>
+</div>
+
+
+
+
+
+
+
+
+
+{% for message in messages%}
+<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+  <strong> </strong> {{ message }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="container text-center py-5 my-5 border-bottom border-primary">
+    <h1>Contact-Us</h1>
+</div>
+<div class="container py-5 my-5 px-5">
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input class="form-control" id="name" onclick="name_check()" name="name" type="text" placeholder="Enter Your Name" autocomplete="off" required>
+            <h5 class='usercheck'></h5>
+        </div>
+        <div class="form-group">
+            <label for="email">Email address:</label>
+            <input class="form-control" id="email" name="email" type="email" placeholder="Enter Your Email Address" autocomplete="off" required>
+            <h5 class="emailchecks"></h5>
+        </div>
+        <div class="form-group">
+            <label for="contact">Contact:</label>
+            <input class="form-control" id="contact" name="contact" type="number" min="1"    placeholder='Enter Your Contact Number' autocomplete="off" required>
+            <h5 class="contactchecks"></h5>
+        </div>
+        <div class="form-group">
+            <label for="content">Content:</label>
+            <textarea class="form-control" id="content" name="content" rows="3" type="textarea" placeholder="Enter your Question here... "  autocomplete="off" required></textarea>
+            <h5 class="textarea"></h5>
+        </div>
+        <!-- <div class="checkbox">
+            <label><input type="checkbox"> Remember me</label>
+        </div> -->
+        {% csrf_token %}
+        <button id='submit' class="mt-3 btn btn-primary" type="submit">Submit</button>
+    </form>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"  integrity = 'sha256-9/aliU8dGd2tb6OSsuzixeV4y/faDqgFtohetphbbj0=' crossorigin= "anonymous"></script> 
+    </script>
+   
+  <script>
+        $(function() {
+            $("#search").autocomplete({
+                source: "{% url 'blog:autosuggest' %}",
+            });
+        });
+</script>
+
+
+{% endblock %}
+

@@ -1,0 +1,353 @@
+{% extends 'base.html' %} {% block title %}Contact Page Write your queries to contact us{% endblock %} 
+
+
+
+{% block nav %}
+    <nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">CISBLOG</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <!-- <li class="nav-item active">
+                    <a class="nav-link" href="/">Home </a>
+                </li> -->
+                <!-- <span class="sr-only">(current)</span> -->
+                <!-- <li class="nav-item">
+                    <a class="nav-link" href="../bloghome">Popblog</a>
+                </li> -->
+                <li class="nav-item">
+                    {% if request.session.person_id %} {% csrf_token %}
+                    <a class="nav-link" href="../blogpost">WrBlog</a> {% else %}
+                    <a class="nav-link" href="#">WrBlog</a> {% endif %}
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../contact">ContactUs</a>
+                </li>
+                <!-- <li class="nav-item">
+                    <a class="nav-link" href="../mainpage">About</a>
+                </li> -->
+            </ul>
+            <div class="mr-3">
+
+                <form action="../../searching" method='post' class="form-inline my-2 my-lg-0">
+                    {% csrf_token %}
+                    <input class="form-control mr-sm-2" name="keyword" type="search" placeholder="Search" id="search" aria-label="Search" autocomplete="on">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+
+            <!-- {% if all1.votes_table == '1' %} profile
+            <a class="btn btn-outline-success my-2 my-sm-0 nav-link mx-2" href="/">LogOut</a> {% endif %} {% if all1.votes_table != '1' %}
+            <a class="btn btn-outline-success my-2 my-sm-0 nav-link mx-2" href="../signup">SignUp</a>
+            <a class="btn btn-outline-success my-2 my-sm-0 nav-link mx-2" href="../signin">SignIn</a> {% endif %} -->
+            {% if request.session.person_id %} {% csrf_token %}
+            <a class="btn btn-outline-success my-2 my-sm-0 nav-link mx-2" href="../cis/{{all11.userslug}}">{{ request.session.person_fname }} </a>
+            <a class="btn btn-outline-success my-2 my-sm-0 nav-link mx-2" href="../logout">LogOut</a> {% else %}
+            <a class="btn btn-outline-success my-2 my-sm-0 nav-link mx-2" href="../signup">SignUp</a>
+            <a class="btn btn-outline-success my-2 my-sm-0 nav-link mx-2" href="../signin">SignIn</a> {% endif %}
+
+        </div>
+    </nav>
+{% endblock %}
+
+
+
+
+
+{% block body %}
+
+
+<div class="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li aria-current="#" class="breadcrumb-item active">Signup</li>
+    </ol>
+</div>
+<div class="container text-center py-5 my-5 border-bottom border-primary">
+    <h1>SignUp</h1>
+</div>
+<div class="container py-5 my-5 px-5">
+    <form method="post">{% csrf_token %}
+        <div class="form-group">
+            <label for="firstname">Name:</label>
+            <input class="form-control" id="firstname" name="firstname" type="text">
+            <h5 id="usercheck"></h5>
+        </div>
+        <div class="form-group">
+            <label for="lastname">First Name:</label>
+            <input class="form-control" id="lastname" name="lastname" type="text" required>
+            <h5 id="userlastcheck"></h5>
+        </div>
+        <div class="form-group">
+            <label for="contact">contact:</label>
+            <p><small>A Number must contain only 10 digit:</small></p>
+            <input class="form-control" id="contact" name="contact" type="number" pattern="[0-9]{10}" required>
+            <h5 id="contactchecks"></h5>
+        </div>
+        <div class="form-group">
+            <label for="email">Email address:</label>
+            <p><small>Email can be @gmail, @outlook and @hotmail :</small></p>
+            <input class="form-control" id="email" name="email" type="email" pattern=".+@hotmail\.com|.+@outlook\.com|.+@gmail\.com" required>
+            <h5 id="emailchecks"></h5>
+        </div>
+        <div class="form-group">
+            <label for="state">State:</label>
+            <input class="form-control" id="state" name="state" type="text" required>
+            <h5 id="statechecks"></h5>
+        </div>
+        <div class="form-group">
+            <label for="city">City:</label>
+            <input class="form-control" id="city" name="city" type="text" required>
+            <h5 id="citychecks"></h5>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <p><small>A password must contain 8 or more characters (least one number, and one uppercase and lowercase letter):</small></p>
+            <input class="form-control" id="password" name="password" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+            <p id="passcheck"></p>
+        </div>
+        <div class="form-group">
+            <label for="password1">Re Enter Password:</label>
+            <input type="password" class="form-control" name='password1' id="password1" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+            <p id="conpasscheck"></p>
+        </div>
+        <div class="form-group">
+            <label for="image">Upload profile photo:</label>
+            <input type="file" id="image" name="image" />
+        </div>
+        <!-- <div class="checkbox">
+            <label><input type="checkbox"> Remember me</label>
+        </div> -->
+        <input class="mt-3 btn btn-primary" name="submit" id="submit" type="submit"/>
+    </form>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#usercheck").hide();
+        $("#userlastcheck").hide();
+        $("#contactchecks").hide();
+        $("#emailchecks").hide();
+        $("#statechecks").hide();
+        $("#citychecks").hide();
+        $("#passcheck").hide();
+        $("#conpasscheck").hide();
+        var user_err = true;
+        var userlast_err = true;
+        var contact_err = true;
+        var email_err = true;
+        var state_err = true;
+        var city_err = true;
+        var pass_err = true;
+        var conpass_err = true;
+        $("#city").keyup(function() {
+            city_check();
+        });
+
+        function city_check() {
+            var city_val = $("#city").val();
+            if (city_val.length == '') {
+                $("#citychecks").show();
+                $("#citychecks").html("**state can not be blank");
+                $("#citychecks").focus()
+                $("#citychecks").css("color", "red")
+                city_err = false;
+                return false;
+            } else {
+                $("#citychecks").hide();
+            }
+
+        }
+
+
+
+
+
+        $("#state").keyup(function() {
+            state_check();
+        });
+
+        function state_check() {
+            var satate_val = $("#state").val();
+            if (satate_val.length == '') {
+                $("#statechecks").show();
+                $("#statechecks").html("**state can not be blank");
+                $("#statechecks").focus()
+                $("#statechecks").css("color", "red")
+                state_err = false;
+                return false;
+            } else {
+                $("#statechecks").hide();
+            }
+
+        }
+
+
+
+
+
+        $("#email").keyup(function() {
+            email_check();
+        });
+
+        function email_check() {
+            var email_val = $("#email").val();
+            if (email_val.length == '') {
+                $("#emailchecks").show();
+                $("#emailchecks").html("**Email id can not be blank");
+                $("#emailchecks").focus()
+                $("#emailchecks").css("color", "red")
+                email_err = false;
+                return false;
+            } else {
+                $("#emailchecks").hide();
+            }
+
+        }
+
+        $("#contact").keyup(function() {
+            contact_check();
+        });
+
+        function contact_check() {
+            var contact_val = $("#contact").val();
+            if (contact_val.length == '') {
+                $("#contactchecks").show();
+                $("#contactchecks").html("**contact number can not be blackmust be blank");
+                $("#contactchecks").focus()
+                $("#contactchecks").css("color", "red")
+                contact_err = false;
+                return false;
+            } else {
+                $("#contactchecks").hide();
+            }
+            }
+
+           
+        $("#firstname").keyup(function() {
+            username_check();
+        });
+
+        function username_check() {
+            var user_val = $("#firstname").val();
+            if (user_val.length == '') {
+                $("#usercheck").show();
+                $("#usercheck").html("**please fill the first name");
+                $("#usercheck").focus()
+                $("#usercheck").css("color", "red")
+                user_err = false;
+                return false;
+            } else {
+                $("#usercheck").hide();
+            }
+        }
+
+
+
+        $("#lastname").keyup(function() {
+            userlastname_check();
+        });
+
+        function userlastname_check() {
+            var userlast_val = $("#lastname").val();
+            if (userlast_val.length == '') {
+                $("#userlastcheck").show();
+                $("#userlastcheck").html("**please fill the Last name");
+                $("#userlastcheck").focus()
+                $("#userlastcheck").css("color", "red")
+                userlast_err = false;
+                return false;
+            } else {
+                $("#userlastcheck").hide();
+            }
+        }
+
+
+
+        $("#password").keyup(function() {
+            password_check();
+        });
+
+        function password_check() {
+            var passwdstr = $("#password").val();
+            if ((passwdstr.length == '')) {
+                $("#passcheck").show();
+                $("#passcheck").html("**Password shoud not be blank");
+                $("#passcheck").focus()
+                $("#passcheck").css("color", "red")
+                pass_err = false;
+                return false;
+            } else {
+                $("#passcheck").hide();
+            }
+            if ((passwdstr.length > 1)) {
+                $("#passcheck").show();
+                $("#passcheck").html("**Password must greater then 3");
+                $("#passcheck").focus()
+                $("#passcheck").css("color", "red")
+                pass_err = false;
+                return false;
+
+            } else {
+                $("#passcheck").hide();
+            }
+            if ((passwdstr.length < 15)) {
+                $("#passcheck").show();
+                $("#passcheck").html("**Password shoud less then 15 char");
+                $("#passcheck").focus()
+                $("#passcheck").css("color", "red")
+                pass_err = false;
+                return false;
+            } else {
+                $("#passcheck").hide();
+            }
+        }
+
+
+
+        $("#conpasscheck").keyup(function() {
+            conpassword_check();
+        });
+
+        function conpassword_check() {
+            var conpasswdstr = $("#password1").val();
+            var passwdstr = $("#password").val();
+            if ((passwdstr != conpasswdstr) && (conpasswdstr == '')) {
+                $("#conpasscheck").show();
+                $("#conpasscheck").html("**Password did not match");
+                $("#conpasscheck").focus()
+                $("#conpasscheck").css("color", "red")
+                conpass_err = false;
+                return false;
+            } else {
+                $("#conpasscheck").hide();
+            }
+        }
+        $("#submit").click(function() {
+            var user_err = true;
+            var userlast_err = true;
+            var contact_err = true;
+            var email_err = true;
+            var state_err = true;
+            var city_err = true;
+            var pass_err = true;
+            var conpass_err = true;
+            city_check();
+            email_check();
+            contact_check();
+            username_check();
+            userlastname_check();
+            password_check();
+            conpassword_check();
+            if ((user_err == true) && (userlast_err == true) && (contact_check == true) && (contact_err == true) && (email_err == true) && (state_err == true) && (city_err == true) && (pass_err == true) && (conpass_err == true)) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+
+    });
+</script>
+{% endblock %}
