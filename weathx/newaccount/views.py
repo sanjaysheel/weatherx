@@ -45,7 +45,7 @@ def contact(request):
             #     recipient_list = ['jain.suvidh@gmail.com'],
             #     fail_silently = True,
             # )
-            # subject = 'Reply for contact CISBlogs'
+            # subject = 'Reply for contact sanjayBlogs'
             # message = f'Hi {name1}, thank you for connecting with us \n Name: {name1} \n Email: {email1} \n your message: {content1} \n\n\n\n Our team will contact you soon..!'
             # email_from = settings.EMAIL_HOST_USER 
             # recipient_list = [email1] 

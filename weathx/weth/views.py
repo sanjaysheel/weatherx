@@ -61,9 +61,9 @@ def delete(request):
 
 def index(request):
     if request.method != "POST":
-        
+        # 84b31d19ba30010d1d2e2dd6428bdbc1
         city="delhi"
-        source = requests.get("http://api.openweathermap.org/data/2.5/weather?q="+str(city)+"&&units=metric&APPID=b441443ea9bc1df5b602a01d7c0146ee")
+        source = requests.get("http://api.openweathermap.org/data/2.5/weather?q="+str(city)+"&&units=metric&APPID=367576044558250c56a25c835b8962f1")
         da = source.json()
         
         weather1 = {
@@ -85,7 +85,7 @@ def index(request):
         weather = {}
         citynemelist  =  City.objects.all()
         for i in citynemelist:
-            source1 = requests.get("http://api.openweathermap.org/data/2.5/weather?q="+str(i)+"&&units=metric&APPID=b441443ea9bc1df5b602a01d7c0146ee")
+            source1 = requests.get("http://api.openweathermap.org/data/2.5/weather?q="+str(i)+"&&units=metric&APPID=367576044558250c56a25c835b8962f1")
             da = source1.json()
             
             weather = {
@@ -104,7 +104,7 @@ def index(request):
         c = {"data": weather,"st":st,"citylist":citylist}
         ListValue = []
         listday = []
-        a = requests.get('http://api.openweathermap.org/data/2.5/forecast?q='+city+'&&units=metric&appid=b441443ea9bc1df5b602a01d7c0146ee')
+        a = requests.get('http://api.openweathermap.org/data/2.5/forecast?q='+city+'&&units=metric&appid=367576044558250c56a25c835b8962f1')
         # accessing the API json data
         full = a.json()
 
@@ -143,10 +143,10 @@ def index(request):
         return render(request, "index.html", context)
     if request.method == 'POST':
         city = request.POST.get('name')
-        check = requests.get("http://api.openweathermap.org/data/2.5/weather?q="+city+"&&units=metric&APPID=b441443ea9bc1df5b602a01d7c0146ee")
+        check = requests.get("http://api.openweathermap.org/data/2.5/weather?q="+city+"&&units=metric&APPID=367576044558250c56a25c835b8962f1")
         if check.json()['cod'] == 200:
             if City.objects.filter(name=city).exists():
-                source = requests.get("http://api.openweathermap.org/data/2.5/weather?q="+city+"&&units=metric&APPID=b441443ea9bc1df5b602a01d7c0146ee")
+                source = requests.get("http://api.openweathermap.org/data/2.5/weather?q="+city+"&&units=metric&APPID=367576044558250c56a25c835b8962f1")
                 
                 da = source.json()
                 weather1 = {
@@ -165,7 +165,7 @@ def index(request):
                 citylist = []
                 citynemelist  =  City.objects.all()
                 for i in citynemelist:
-                    source1 = requests.get("http://api.openweathermap.org/data/2.5/weather?q="+str(i)+"&&units=metric&APPID=b441443ea9bc1df5b602a01d7c0146ee")
+                    source1 = requests.get("http://api.openweathermap.org/data/2.5/weather?q="+str(i)+"&&units=metric&APPID=367576044558250c56a25c835b8962f1")
                     da = source1.json()
                     weather = {
                         'city': i,
@@ -182,7 +182,7 @@ def index(request):
                     citylist.append(weather)
                 ListValue = []
                 listday = []
-                a = requests.get('http://api.openweathermap.org/data/2.5/forecast?q='+city+'&&units=metric&appid=b441443ea9bc1df5b602a01d7c0146ee')
+                a = requests.get('http://api.openweathermap.org/data/2.5/forecast?q='+city+'&&units=metric&appid=367576044558250c56a25c835b8962f1')
                 full = a.json()
                 day = datetime.datetime.today()
                 today_date = int(day.strftime('%d'))
@@ -218,7 +218,7 @@ def index(request):
             else:
                 
                 City(name = city).save()
-                source = requests.get("http://api.openweathermap.org/data/2.5/weather?q="+city+"&&units=metric&APPID=b441443ea9bc1df5b602a01d7c0146ee")
+                source = requests.get("http://api.openweathermap.org/data/2.5/weather?q="+city+"&&units=metric&APPID=367576044558250c56a25c835b8962f1")
                 da = source.json()
                 weather1 = {
                     'city': city,
@@ -237,7 +237,7 @@ def index(request):
                 citylist = []
                 citynemelist  =  City.objects.all()
                 for i in citynemelist:
-                    source1 = requests.get("http://api.openweathermap.org/data/2.5/weather?q="+str(i)+"&&units=metric&APPID=b441443ea9bc1df5b602a01d7c0146ee")
+                    source1 = requests.get("http://api.openweathermap.org/data/2.5/weather?q="+str(i)+"&&units=metric&APPID=367576044558250c56a25c835b8962f1")
                     da = source1.json()
                     weather = {
                         'city': i,
@@ -254,7 +254,7 @@ def index(request):
                     citylist.append(weather)
                 ListValue = []
                 listday = []
-                a = requests.get('http://api.openweathermap.org/data/2.5/forecast?q='+city+'&&units=metric&appid=b441443ea9bc1df5b602a01d7c0146ee')
+                a = requests.get('http://api.openweathermap.org/data/2.5/forecast?q='+city+'&&units=metric&appid=367576044558250c56a25c835b8962f1')
                 # accessing the API json data
                 full = a.json()
 
@@ -294,7 +294,7 @@ def index(request):
                 return render(request, "index.html", context)
         else:
             namew = 'delhi'
-            source = requests.get("http://api.openweathermap.org/data/2.5/weather?q="+namew+"&&units=metric&APPID=b441443ea9bc1df5b602a01d7c0146ee")
+            source = requests.get("http://api.openweathermap.org/data/2.5/weather?q="+namew+"&&units=metric&APPID=367576044558250c56a25c835b8962f1")
             da = source.json()
             weather1 = {
                 'city': city,
@@ -314,7 +314,7 @@ def index(request):
             citylist = []
             citynemelist  =  City.objects.all()
             for i in citynemelist:
-                source1 = requests.get("http://api.openweathermap.org/data/2.5/weather?q="+str(i)+"&&units=metric&APPID=b441443ea9bc1df5b602a01d7c0146ee")
+                source1 = requests.get("http://api.openweathermap.org/data/2.5/weather?q="+str(i)+"&&units=metric&APPID=367576044558250c56a25c835b8962f1")
                 da = source1.json()
                 weather = {
                     'city': i,
@@ -333,7 +333,7 @@ def index(request):
             ListValue = []
             listday = []
             
-            a = requests.get('http://api.openweathermap.org/data/2.5/forecast?q='+namew+'&&units=metric&appid=b441443ea9bc1df5b602a01d7c0146ee')
+            a = requests.get('http://api.openweathermap.org/data/2.5/forecast?q='+namew+'&&units=metric&appid=367576044558250c56a25c835b8962f1')
             full = a.json()
             day = datetime.datetime.today()
             today_date = int(day.strftime('%d'))
